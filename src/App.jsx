@@ -36,7 +36,7 @@ function App() {
   const [metamaskBalance, setMetamaskBalance] = useState("0");
   const [isStarknetDropdownOpen, setisStarknetDropdownOpen] = useState(false);
   const [isChainDropdownOpen, setisChainDropdownOpen] = useState(false);
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -101,7 +101,7 @@ function App() {
   });
   //  SEND TO ZKSync Era TX
   const calculate_zk_fee =
-    (((17 * gasPrice * (103 / 100) + 799) / 800) * 243884) / 10 ** 18;
+    (((17 * gasPrice * (140 / 100) + 799) / 800) * 243884) / 10 ** 18;
   const zkUserValue = ethers.utils.parseEther(inputValue ? inputValue : "0");
   const zkAddedWei = ethers.utils.parseUnits(
     calculate_zk_fee.toFixed(18),
@@ -109,7 +109,7 @@ function App() {
   );
   const Zktotal = zkUserValue.add(zkAddedWei);
 
-  console.log(calculate_zk_fee.toString());
+  // console.log(calculate_zk_fee.toString());
   const {
     runContractFunction: sendZks,
     data: enterTxResponseZks,
@@ -282,16 +282,16 @@ function App() {
         </button>
       );
     }
-    if (userChainId !== 1) {
-      return (
-        <button
-          onClick={async () => await Moralis.switchNetwork(1)}
-          className="send-button send-error"
-        >
-          Please Switch to Ethereum Mainnet
-        </button>
-      );
-    }
+    // if (userChainId !== 31337) {
+    //   return (
+    //     <button
+    //       onClick={async () => await Moralis.switchNetwork(1)}
+    //       className="send-button send-error"
+    //     >
+    //       Please Switch to Ethereum Mainnet
+    //     </button>
+    //   );
+    // }
     if (!inputValue || inputValue <= 0)
       return (
         <button className="send-button send-error">Enter a valid amount</button>
@@ -410,22 +410,22 @@ function App() {
       setMaxFeePerGas(maxFeePerGas);
       setMaxPriorityFeePerGas(maxPriorityFeePerGas);
 
-      console.log("gasPrice : ", ethers.utils.formatUnits(gasPrice, "ether"));
+      // console.log("gasPrice : ", ethers.utils.formatUnits(gasPrice, "gwei"));
       // console.log(
       //   "maxPriorityFeePerGas: ",
-      //   ethers.utils.formatUnits(maxPriorityFeePerGas, "wei")
+      //   ethers.utils.formatUnits(maxPriorityFeePerGas, "gwei")
       // );
       // console.log(
       //   "lastBaseFeePerGas ",
-      //   ethers.utils.formatUnits(lastBaseFeePerGas, "wei")
+      //   ethers.utils.formatUnits(lastBaseFeePerGas, "gwei")
       // );
       // console.log(
       //   "maxFeePerGas: ",
-      //   ethers.utils.formatUnits(maxFeePerGas, "wei")
+      //   ethers.utils.formatUnits(maxFeePerGas, "gwei")
       // );
       // console.log(chainSelection);
       // console.log(await provider.getFeeData());
-    }, 5000);
+    }, 1000);
 
     return () => {
       clearInterval(interval);
